@@ -58,13 +58,13 @@ st.markdown(
         margin-top: 0px;
         margin-bottom: 15px;
         color: #00a19c;
+        text-align: left;
         line-height: 1.2;
     }
 
     /* Form styling */
     .genre-preferences-form {
         margin-top: 0px; /* Adjusted margin to remove space */
-        text-align: left;
     }
 
     /* Button styling */

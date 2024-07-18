@@ -38,7 +38,7 @@ st.markdown(
         font-size: 20px;
         margin-top: 0px;
         margin-bottom: 15px;
-        text-align: center;
+        text-align: left;
         line-height: 1.5;
     }
 
@@ -48,6 +48,7 @@ st.markdown(
         margin-top: 15px;
         margin-bottom: 15px;
         color: #00a19c;
+        text-align: center;
         line-height: 1.2;
     }
 

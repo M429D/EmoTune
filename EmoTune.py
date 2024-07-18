@@ -38,7 +38,7 @@ st.markdown(
         font-size: 20px;
         margin-top: 0px;
         margin-bottom: 15px;
-        text-align: justify;
+        text-align: center;
         line-height: 1.5;
     }
 

@@ -65,6 +65,7 @@ st.markdown(
     /* Form styling */
     .genre-preferences-form {
         margin-top: 0px; /* Adjusted margin to remove space */
+        text-align: center;
     }
 
     /* Button styling */

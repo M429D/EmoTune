@@ -175,15 +175,15 @@ elif st.session_state["genre_selected"] == "captured":
 
     st.markdown('<div class="section-header">Recommended Music</div>', unsafe_allow_html=True)
     # Placeholder for recommended song title
-    st.markdown('<div class="key-features">Recommended Song Title: Cherry Love by Mark Andrew Hansen (Piano Solos)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="key-features">Cherry Love by Mark Andrew Hansen (Piano Solos)</div>', unsafe_allow_html=True)
     
     # Code to embed music player
     st.image("Cherry Love Spotify.png", use_column_width=True)
     st.audio("Cheery Love.mp3")
-    st.markdown('<div class="key-features">Recommended Song Title: Flashing Lights by Kanye West (Electronic)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="key-features">Flashing Lights by Kanye West (Electronic)</div>', unsafe_allow_html=True)
     st.image("Flashing Lights Spotify.png", use_column_width=True)
     st.audio("Flashing Lights.mp3")
-    st.markdown('<div class="key-features">Recommended Song Title: Industry Baby by Lil Nas X (Upbeat)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="key-features">Industry Baby by Lil Nas X (Upbeat)</div>', unsafe_allow_html=True)
     st.image("Industry Baby Spotify.png", use_column_width=True)
     st.audio("Industry Baby.mp3")
 

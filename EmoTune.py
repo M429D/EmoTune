@@ -122,7 +122,7 @@ if st.session_state["genre_selected"] == "initial":
         "Classical", "Jazz", "Ambient", "Electronic", "Piano Solos", 
         "Acoustic Guitar", "Orchestral", "Nature Sounds", "Meditation", 
         "Lo-fi Beats", "Chillhop", "World Music", 
-        "Game Background Music", "Movie Background Music", "Upbeat"
+        "Instrumental Rock", "Synthwave", "Upbeat"
     ]
 
     emotions = ["Anger", "Happy", "Surprise", "Fear", "Sadness", "Disgust", "Neutral"]
@@ -180,7 +180,8 @@ elif st.session_state["genre_selected"] == "captured":
     # Code to embed music player
     st.image("Cherry Love Spotify.png", use_column_width=True)
     st.audio("Cheery Love.mp3")
-
+    st.image("Flashing Lights Spotify.png", use_column_width=True)
+    st.audio("Flashing Lights.mp3")
 
 
 

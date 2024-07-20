@@ -153,23 +153,12 @@ elif st.session_state["genre_selected"] == "customized":
     st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
     st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="section-header">Emotion Capture</div>', unsafe_allow_html=True)
-    st.markdown('<div class="key-features">Please ensure your device\'s camera is \'ON\' before pressing the button below to capture your amazing facial expression and the image will appear below ⬇⬇.</div>', unsafe_allow_html=True)
-
-    if st.button("Capture Emotion"):
-        # Code to capture and display emotion
-        st.markdown('<div class="key-features">Your current emotion is: Happy 😆</div>', unsafe_allow_html=True)  # Placeholder for emotion output
-        # Display the image using Streamlit's built-in function
-        st.image("Captured Image.jpg", use_column_width=True)
-        st.session_state["emotion_captured"] = True
-        st.experimental_rerun()
-
-    if st.session_state["emotion_captured"]:
-        st.markdown('<div class="key-features">Your current emotion is: Happy 😆</div>', unsafe_allow_html=True)  # Placeholder for emotion output
-        st.image("Captured Image.jpg", use_column_width=True)
-        if st.button("Recommendation"):
-            st.session_state["genre_selected"] = "captured"
-            st.experimental_rerun()
+    st.markdown('<div class="section-header">Facial Expression Capture </div>', unsafe_allow_html=True)
+    st.markdown('<div class="key-features">Please ensure your device\'s camera is \'ON\' for automatic capture of your amazing facial expression and the image will appear below ⬇⬇.</div>', unsafe_allow_html=True)
+    st.image("Captured Image.jpg", use_column_width=True)
+    st.markdown('<div class="key-features">Your current emotion is: Happy 😆</div>', unsafe_allow_html=True)  # Placeholder for emotion output
+    st.session_state["genre_selected"] = "captured"
+    st.experimental_rerun()
 
 # Song Recommendation State
 elif st.session_state["genre_selected"] == "captured":

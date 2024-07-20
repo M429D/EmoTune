@@ -157,8 +157,7 @@ elif st.session_state["genre_selected"] == "customized":
     st.markdown('<div class="key-features">Please ensure your device\'s camera is \'ON\' for automatic capture of your amazing facial expression and the image will appear below ⬇⬇.</div>', unsafe_allow_html=True)
     st.image("Captured Image.jpg", use_column_width=True)
     st.markdown('<div class="key-features">Your current emotion is: Happy 😆</div>', unsafe_allow_html=True)  # Placeholder for emotion output
-    st.session_state["genre_selected"] = "captured"
-    st.experimental_rerun()
+    
 
 # Song Recommendation State
 elif st.session_state["genre_selected"] == "captured":

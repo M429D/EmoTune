@@ -157,7 +157,7 @@ elif st.session_state["genre_selected"] == "customized":
     st.markdown('<div class="key-features">Please ensure your device\'s camera is \'ON\' for automatic capture of your amazing facial expression and the image will appear below ⬇⬇.</div>', unsafe_allow_html=True)
     st.image("Captured Image.jpg", use_column_width=True)
     st.markdown('<div class="key-features">Your current emotion is: Happy 😆</div>', unsafe_allow_html=True)  # Placeholder for emotion output
-    if st.button("Launch"):
+    if st.button("Next"):
         st.session_state["genre_selected"] = "captured"
         st.experimental_rerun()
 
@@ -174,12 +174,14 @@ elif st.session_state["genre_selected"] == "captured":
     # Code to embed music player
     st.image("Cherry Love Spotify.png", use_column_width=True)
     st.audio("Cheery Love.mp3")
-    st.markdown('<div class="key-features">Flashing Lights by Kanye West (Electronic)</div>', unsafe_allow_html=True)
-    st.image("Flashing Lights Spotify.png", use_column_width=True)
-    st.audio("Flashing Lights.mp3")
-    st.markdown('<div class="key-features">Industry Baby by Lil Nas X (Upbeat)</div>', unsafe_allow_html=True)
-    st.image("Industry Baby Spotify.png", use_column_width=True)
-    st.audio("Industry Baby.mp3")
+    st.button("Terminate Session")
+    #st.markdown('<div class="key-features">Flashing Lights by Kanye West (Electronic)</div>', unsafe_allow_html=True)
+    #st.image("Flashing Lights Spotify.png", use_column_width=True)
+    #st.audio("Flashing Lights.mp3")
+    #st.markdown('<div class="key-features">Industry Baby by Lil Nas X (Upbeat)</div>', unsafe_allow_html=True)
+    #st.image("Industry Baby Spotify.png", use_column_width=True)
+    #st.audio("Industry Baby.mp3")
+    
 
 
 

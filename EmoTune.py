@@ -159,9 +159,7 @@ elif st.session_state["genre_selected"] == "customized":
     #if st.button("Next"):
         #st.session_state["genre_selected"] = "captured"
         #st.experimental_rerun()
-    st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
-    st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
-
+    
     st.markdown('<div class="section-header">Recommended Music</div>', unsafe_allow_html=True)
     # Placeholder for recommended song title
     st.markdown('<div class="key-features">Cherry Love by Mark Andrew Hansen (Piano Solos)</div>', unsafe_allow_html=True)

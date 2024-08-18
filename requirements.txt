@@ -1,3 +1,10 @@
+streamlit
 opencv-python-headless
 opencv-python
 deepface
+tensorflow
+numpy
+Pillow
+protobuf
+requests
+matplotlib

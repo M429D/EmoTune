@@ -224,32 +224,32 @@ if st.session_state["state"] == "initial":
         st.rerun() 
 
 # Emotion Capture State
-elif st.session_state["state"] == "customized":
-    st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
-    st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
+# elif st.session_state["state"] == "customized":
+#     st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
+#     st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="section-header">Facial Expression Capture </div>', unsafe_allow_html=True)
-    st.markdown('<div class="body">Please ensure your device\'s camera is \'ON\' for automatic capture of your amazing facial expression and the image will appear below ⬇⬇.</div>', unsafe_allow_html=True)
+#     st.markdown('<div class="section-header">Facial Expression Capture </div>', unsafe_allow_html=True)
+#     st.markdown('<div class="body">Please ensure your device\'s camera is \'ON\' for automatic capture of your amazing facial expression and the image will appear below ⬇⬇.</div>', unsafe_allow_html=True)
     
-    # Start the webcam feed and run face detection
-    #webcam_feed()
+#     # Start the webcam feed and run face detection
+#     webcam_feed()
 
-elif st.session_state["state"] == "active":
-    st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
-    st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-header">Recommended Instrumental Music</div>', unsafe_allow_html=True)
-    st.markdown('<div class="body">Cherry Love by Mark Andrew Hansen (Piano Solos)</div>', unsafe_allow_html=True)
-    st.image("Cherry Love Spotify.png", use_column_width=True)
-    st.audio("Cheery Love.mp3")
+# elif st.session_state["state"] == "active":
+#     st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
+#     st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
+#     st.markdown('<div class="section-header">Recommended Instrumental Music</div>', unsafe_allow_html=True)
+#     st.markdown('<div class="body">Cherry Love by Mark Andrew Hansen (Piano Solos)</div>', unsafe_allow_html=True)
+#     st.image("Cherry Love Spotify.png", use_column_width=True)
+#     st.audio("Cheery Love.mp3")
     
-    Termination = st.button("Terminate Session")
+#     Termination = st.button("Terminate Session")
 
-    if Termination:
-        st.session_state["state"] = "terminated"
-        st.rerun()
+#     if Termination:
+#         st.session_state["state"] = "terminated"
+#         st.rerun()
 
-# Terminated Session State
-elif st.session_state["state"] == "terminated":
-    st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
-    st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
-    st.markdown('<div class="body">Thank you for your patronage, and we hope to see you again soon! 👋🏽👋🏽\n</div>', unsafe_allow_html=True)
+# # Terminated Session State
+# elif st.session_state["state"] == "terminated":
+#     st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
+#     st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
+#     st.markdown('<div class="body">Thank you for your patronage, and we hope to see you again soon! 👋🏽👋🏽\n</div>', unsafe_allow_html=True)

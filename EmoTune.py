@@ -232,7 +232,7 @@ elif st.session_state["state"] == "customized":
     st.markdown('<div class="body">Please ensure your device\'s camera is \'ON\' for automatic capture of your amazing facial expression and the image will appear below ⬇⬇.</div>', unsafe_allow_html=True)
     
     # Start the webcam feed and run face detection
-    webcam_feed()
+    #webcam_feed()
 
 elif st.session_state["state"] == "active":
     st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)

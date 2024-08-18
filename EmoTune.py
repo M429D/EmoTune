@@ -1,3 +1,6 @@
+#Got no submit button error in customized state
+#need to do loop for customized and active state for a certaion time
+
 import streamlit as st
 import cv2
 from deepface import DeepFace
@@ -54,15 +57,15 @@ st.markdown(
 
     .form-header {
         font-size: 30px;
-        margin-top: 0px;
-        margin-bottom: 15px;
+        margin-top: 10px;
+        margin-bottom: 10px;
         color: #00a19c;
         text-align: left;
         line-height: 1.2;
     }
 
     .genre-preferences-form {
-        margin-top: 0px;
+        margin-top: 10px;
     }
 
     .stButton>button {
@@ -71,11 +74,8 @@ st.markdown(
         border-radius: 5px;
         padding: 10px 20px;
         margin: auto;
+        margin-top: 10px;
         display: block;
-    }
-
-    .stCheckbox>label {
-        font-size: 18px;
     }
 
     .reportview-container .main .block-container {
@@ -171,7 +171,7 @@ def webcam_feed():
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         stframe.image(frame_rgb, channels="RGB")
 
-        if st.session_state.get("state") == "terminated":
+        if st.session_state.get("genre_selected") == "terminated":
             break
 
     cap.release()
@@ -180,8 +180,9 @@ def webcam_feed():
 if "state" not in st.session_state:
     st.session_state["state"] = "initial"
 
-# Form display condition
+# Introduction and Key Features
 if st.session_state["state"] == "initial":
+
     st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
     st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
     st.image("EmoTune Welcome.jpg", use_column_width=True)
@@ -194,7 +195,6 @@ if st.session_state["state"] == "initial":
     st.markdown('<div class="section-header">Instrumental Music Genre Preference Customization</div>', unsafe_allow_html=True)
     st.markdown('<div class="body">Choose genres to link with the specific emotions, more than 1 may be selected:</div>', unsafe_allow_html=True)
     
-    # Define the genres and emotions
     genres = [
         "Classical", "Jazz", "Ambient", "Electronic", "Piano Solos", 
         "Acoustic Guitar", "Orchestral", "Nature Sounds", "Meditation", 
@@ -204,32 +204,27 @@ if st.session_state["state"] == "initial":
 
     emotions = ["Anger", "Happy", "Surprise", "Fear", "Sadness", "Disgust", "Neutral"]
 
-    # Initialize the session state to store genre preferences
+    # Initialize the genre preferences dictionary in session state if it doesn't exist
     if "genre_preferences" not in st.session_state:
         st.session_state["genre_preferences"] = {emotion: [] for emotion in emotions}
 
-    # Form to collect genre preferences
     with st.form(key='genre_preferences_form'):
-        genre_preferences = {emotion: [] for emotion in emotions}
-
         for emotion in emotions:
             st.markdown(f"<div class='form-header'>{emotion}</div>", unsafe_allow_html=True)
             cols = st.columns(3)
             for i, genre in enumerate(genres):
                 with cols[i % 3]:
-                    if st.checkbox(genre, key=f"{emotion}_{genre}"):
-                        genre_preferences[emotion].append(genre)
-        
+                    selected = st.checkbox(genre, key=f"{emotion}_{genre}")
+                    if selected:
+                        st.session_state["genre_preferences"][emotion].append(genre)
         submit_button = st.form_submit_button(label='Launch Now!')
 
     if submit_button:
-        # Save preferences to session state
-        st.session_state["genre_preferences"] = genre_preferences
         st.session_state["state"] = "customized"
-        st.rerun()
+        st.rerun() 
 
 # Emotion Capture State
-if st.session_state["state"] == "customized":
+elif st.session_state["state"] == "customized":
     st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
     st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
 
@@ -239,7 +234,7 @@ if st.session_state["state"] == "customized":
     # Start the webcam feed and run face detection
     webcam_feed()
 
-if st.session_state["state"] == "active":
+elif st.session_state["state"] == "active":
     st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
     st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-header">Recommended Instrumental Music</div>', unsafe_allow_html=True)
@@ -254,7 +249,7 @@ if st.session_state["state"] == "active":
         st.rerun()
 
 # Terminated Session State
-if st.session_state["state"] == "terminated":
+elif st.session_state["state"] == "terminated":
     st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
     st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
     st.markdown('<div class="body">Thank you for your patronage, and we hope to see you again soon! 👋🏽👋🏽\n</div>', unsafe_allow_html=True)

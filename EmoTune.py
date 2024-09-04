@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
-from opencv import cv2
+#from opencv import cv2
 from deepface import DeepFace
 import time
 

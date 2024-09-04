@@ -1,11 +1,5 @@
 # streamlit run EmoTune.py [arg--]
 
-import streamlit as st
-import opencv
-from deepface import DeepFace
-import numpy as np
-import time
-
 # Custom CSS for styling
 st.markdown(
     """

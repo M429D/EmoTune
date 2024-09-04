@@ -1,5 +1,4 @@
 streamlit
-opencv-python
 deepface
 numpy
 cv2

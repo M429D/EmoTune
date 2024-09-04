@@ -1,5 +1,7 @@
 # streamlit run EmoTune.py [arg--]
 
+import streamlit as st
+
 # Custom CSS for styling
 st.markdown(
     """

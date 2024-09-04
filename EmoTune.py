@@ -1,9 +1,7 @@
-# streamlit run EmoTune.py [arg--]
-
 import streamlit as st
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 import cv2
 from deepface import DeepFace
-import numpy as np
 import time
 
 # Custom CSS for styling
@@ -89,111 +87,68 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Load Haar cascades for face and eye detection
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-eyes_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye_tree_eyeglasses.xml')
+# Custom video transformer class for streamlit-webrtc
+class VideoTransformer(VideoTransformerBase):
+    def __init__(self):
+        self.face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+        self.eyes_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye_tree_eyeglasses.xml')
+        self.face_detected_time = None
+        self.error_start_time = None
 
-# Function to detect faces and eyes in the image
-def detect_faces_and_eyes(frame):
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=10, minSize=(60, 60))
-    
-    for (x, y, w, h) in faces:
-
-        # Draw rectangle around the face
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (128, 0, 128), 2)
+    def detect_faces_and_eyes(self, frame):
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = self.face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=10, minSize=(60, 60))
         
-        # Detect eyes within the face region
-        faceROI = gray[y:y + h, x:x + w]
-        eyes = eyes_cascade.detectMultiScale(faceROI, scaleFactor=1.1, minNeighbors=10, minSize=(20, 20))
+        for (x, y, w, h) in faces:
+            # Draw rectangle around the face
+            cv2.rectangle(frame, (x, y), (x+w, y+h), (128, 0, 128), 2)
+            # Detect eyes within the face region
+            faceROI = gray[y:y + h, x:x + w]
+            eyes = self.eyes_cascade.detectMultiScale(faceROI, scaleFactor=1.1, minNeighbors=10, minSize=(20, 20))
 
-        for (x2, y2, w2, h2) in eyes:
-            eye_center = (x + x2 + w2 // 2, y + y2 + h2 // 2)
-            radius = int(round((w2 + h2) * 0.25))
-            cv2.circle(frame, eye_center, radius, (0, 255, 255), 2)
-    return faces, frame
+            for (x2, y2, w2, h2) in eyes:
+                eye_center = (x + x2 + w2 // 2, y + y2 // 2)
+                radius = int(round((w2 + h2) * 0.25))
+                cv2.circle(frame, eye_center, radius, (0, 255, 255), 2)
+        return faces, frame
 
-# Function to analyze emotion using DeepFace
-def analyze_emotion(face_img):
-    try:
-        result = DeepFace.analyze(face_img, actions=['emotion'], enforce_detection=False)
-        if isinstance(result, list):
-            result = result[0]
-        emotion = result.get('dominant_emotion')
-    except AttributeError as e:
-        emotion = None
-        st.error("Emotion analysis failed: DeepFace model might be incompatible. Ensure all dependencies are correctly installed.")
-    except Exception as e:
-        emotion = None
-        st.error(f"Emotion analysis failed: {str(e)}")
-    return emotion
+    def analyze_emotion(self, face_img):
+        try:
+            result = DeepFace.analyze(face_img, actions=['emotion'], enforce_detection=False)
+            if isinstance(result, list):
+                result = result[0]
+            emotion = result.get('dominant_emotion')
+        except AttributeError:
+            emotion = None
+        except Exception as e:
+            emotion = None
+        return emotion
 
-# Function to start the webcam and process the feed
-# Function to start the webcam and process the feed
-def webcam_feed():
-    cap = cv2.VideoCapture(0)
-
-    face_detected_time = None
-    error_start_time = None
-
-    # Create placeholders for Streamlit components outside the loop
-    stframe = st.empty()
-    emotion_display = st.empty()
-    error_display = st.empty()
-
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            st.warning("Could not access the webcam.")
-            break
-
-        faces, frame = detect_faces_and_eyes(frame)
+    def transform(self, frame):
+        img = frame.to_ndarray(format="bgr24")
+        faces, img = self.detect_faces_and_eyes(img)
 
         if len(faces) == 1:
-            error_display.empty()
-            error_start_time = None
-            if face_detected_time is None:
-                face_detected_time = time.time()
-            else:
-                if time.time() - face_detected_time >= 3:
-                    (x, y, w, h) = faces[0]
-                    face_img = frame[y:y+h, x:x+w]
-                    face_img_rgb = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
-                    emotion = analyze_emotion(face_img_rgb)
-                    border_color = (128, 0, 128)  # Purple color
-                    frame = cv2.copyMakeBorder(frame, 10, 10, 10, 10, cv2.BORDER_CONSTANT, value=border_color)
-                    
-                    # Centering and resizing the webcam feed
-                    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                    stframe.image(frame_rgb, channels="RGB", use_column_width=True)
-
-                    if emotion:
-                        emotion_display.markdown(f"<div class='body'>Your current emotion is ▶▶ {emotion.capitalize()} </div>", unsafe_allow_html=True)
-
-                    face_detected_time = None
-                    time.sleep(5)
-                    st.session_state["state"] = "active"
-                    st.rerun()
-
+            (x, y, w, h) = faces[0]
+            face_img = img[y:y+h, x:x+w]
+            face_img_rgb = cv2.cvtColor(face_img, cv2.COLOR_BGR2RGB)
+            emotion = self.analyze_emotion(face_img_rgb)
+            if emotion:
+                # Add emotion text to the frame
+                cv2.putText(img, f"Emotion: {emotion.capitalize()}", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
         elif len(faces) > 1:
-            face_detected_time = None
-            if error_start_time is None:
-                error_start_time = time.time()
-            error_display.error("Error: More than one face detected. Please ensure only one face is visible.")
-            emotion_display.empty()
+            cv2.putText(img, "More than one face detected!", (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
 
-            if time.time() - error_start_time < 2:
-                time.sleep(2 - (time.time() - error_start_time))
+        return img
 
-        else:
-            face_detected_time = None
-            error_start_time = None
-
-        # Display the frame with rectangles around faces and circles around eyes
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        stframe.image(frame_rgb, channels="RGB", use_column_width=True)
-
-    cap.release()
+# Start the webcam feed using streamlit-webrtc
+def webcam_feed():
+    webrtc_streamer(
+        key="webcam_feed",
+        video_transformer_factory=VideoTransformer,
+        media_stream_constraints={"video": True, "audio": False},
+        async_processing=True
+    )
 
 # Session state initialization
 if "state" not in st.session_state:
@@ -247,14 +202,14 @@ if st.session_state["state"] == "initial":
 
 # Emotion Capture State
 elif st.session_state["state"] == "customized":
-    st.write(st.session_state["genre_preferences"]) #<<To see Genre Preference Form Input
+    st.write(st.session_state["genre_preferences"])  # <<To see Genre Preference Form Input
     st.markdown('<div class="title">EmoTune</div>', unsafe_allow_html=True)
     st.markdown('<div class="subheader">Facial Emotion Recognition Based Instrumental Music Recommendation Website</div>', unsafe_allow_html=True)
 
     st.markdown('<div class="section-header">Facial Expression Capture </div>', unsafe_allow_html=True)
     st.markdown('<div class="body">Please ensure your device\'s camera is \'ON\' for automatic capture of your amazing facial expression and the image will appear below ⬇⬇.</div>', unsafe_allow_html=True)
     
-    # Start the webcam feed and run face detection
+    # Start the webcam feed and run face detection using streamlit-webrtc
     webcam_feed()
 
 elif st.session_state["state"] == "active":

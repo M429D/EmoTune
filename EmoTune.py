@@ -1,7 +1,7 @@
 # streamlit run EmoTune.py [arg--]
 
 import streamlit as st
-import cv2
+import opencv
 from deepface import DeepFace
 import numpy as np
 import time

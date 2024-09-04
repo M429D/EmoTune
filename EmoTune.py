@@ -2,6 +2,10 @@
 
 import streamlit as st
 import cv2
+from deepface import DeepFace
+import numpy as np
+import time
+
 # Custom CSS for styling
 st.markdown(
     """

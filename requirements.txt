@@ -1,9 +1,2 @@
 streamlit
-streamlit-webrtc
-opencv-python
-opencv-python-headless
-deepface
-tensorflow
-keras
-numpy
-Pillow
+gspread

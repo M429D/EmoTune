@@ -11,8 +11,7 @@ client = gspread.authorize(creds)
 sheet = client.open("Payment_Status").sheet1  # Replace with your sheet name
 
 # Get the payment status from URL query parameters
-query_params = st.experimental_get_query_params()
-payment_status = query_params.get("payment", [""])[0]  # 'success' or 'fail'
+payment_status = st.query_params.get("payment", [""])  # 'success' or 'fail'
 
 # Record the payment status in Google Sheets
 if payment_status == "success":

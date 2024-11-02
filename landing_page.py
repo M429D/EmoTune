@@ -31,7 +31,7 @@ elif payment_status == "fail":
         time.sleep(1)  # Sleep for 1 second
 
     # After countdown, show the order received message
-    st.write(f"<meta http-equiv='refresh' content='0; url={http://localhost:8501/}'>", unsafe_allow_html=True)
+    countdown_placeholder.write(f"<meta http-equiv='refresh' content='0; url=http://localhost:8501/'>", unsafe_allow_html=True)
 
 else:
     st.warning("No payment status provided.")

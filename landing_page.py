@@ -6,7 +6,7 @@ payment_status = st.query_params.get("payment", [""])  # 'success' or 'fail'
 
 # Display the appropriate message based on payment status
 if payment_status == "success":
-    st.success("Thank you for your payment!")
+    st.success("Payment success. Thank you for your patronage!")
     
     countdown_placeholder = st.empty()  # Create a placeholder for the countdown
     countdown_time = 7  # Start countdown from 7 seconds

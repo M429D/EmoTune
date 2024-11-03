@@ -10,6 +10,6 @@ if payment_status == "success":
     st.write(f"Please close this tab and verify on our website that payment has been made to confirm your transaction.")
 elif payment_status == "fail":
     st.warning("Payment failed!")
-    st.write(f"Please close this tab and verify on our website that payment failed to try again.")
+    st.write(f"Please close this tab and verify on our website that payment has failed in order to try again.")
 else:
     st.warning("No payment status provided.")

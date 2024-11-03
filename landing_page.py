@@ -8,5 +8,8 @@ payment_status = st.query_params.get("payment", [""])  # 'success' or 'fail'
 if payment_status == "success":
     st.success("Payment success. Thank you for your patronage!")
     st.write(f"Please close this tab and verify on our website that payment has been made to confirm your transaction.")
+elif payment_status == "fail":
+    st.warning("Payment failed!")
+    st.write(f"Please close this tab and verify on our website that payment failed to try again.")
 else:
     st.warning("No payment status provided.")
